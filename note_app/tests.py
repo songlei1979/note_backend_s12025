@@ -19,4 +19,6 @@ class LoginAPITestCase(TestCase):
         y = 1
         self.assertEqual(x + y, 2, )
 
+    def testcal(self):
+        self.assertEqual(1 + 1, 2)
         # Test failed login
