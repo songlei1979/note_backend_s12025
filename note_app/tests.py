@@ -1,24 +1,32 @@
+# test_auth.py
+from django.urls import reverse
+from rest_framework.test import APITestCase
+from rest_framework import status
 from django.contrib.auth.models import User
-from django.test import TestCase
-from rest_framework.test import APIClient
+from rest_framework.authtoken.models import Token
 
 
-# Create your tests here.
-# test my User login
+class UserLoginTestCase(APITestCase):
+    def setUp(self):
+        self.credentials = {
+            'username': 'testuser',
+            'password': 'secret'
+        }
+        self.user = User.objects.create_user(**self.credentials)
+        self.token_url = reverse('login')
+
+    def test_token_login(self):
+        # Simulate login to get token
+        response = self.client.post(self.token_url, self.credentials)
+
+        # Check if the response status is 200 (OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Check if the token is in the response
+        self.assertIn('token', response.data)
+
+        # Use the token to authenticate further requests
+        token = response.data['token']
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
 
 
-
-class LoginAPITestCase(TestCase):
-    # def setUp(self):
-    #     self.user = User.objects.create_user('testuser', 'test@example.com', 'password')
-    #     self.client = APIClient()
-
-    def test_login_api(self):
-        # Test successful login
-        x = 1
-        y = 1
-        self.assertEqual(x + y, 2, )
-
-    def testcal(self):
-        self.assertEqual(1 + 1, 2)
-        # Test failed login
