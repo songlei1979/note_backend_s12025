@@ -34,6 +34,8 @@ jobs:
       - run:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
+          env:
+            DJANGO_TEST_ENV: true
           command: python manage.py test
 
 # Orchestrate jobs using workflows
