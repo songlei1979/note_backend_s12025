@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.shortcuts import render
 
 # Create your views here.
@@ -8,7 +10,8 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from note_app.serialzers import UserSerializer
+from note_app.models import Note
+from note_app.serialzers import UserSerializer, NoteSerializer
 
 
 class RegisterView(generics.CreateAPIView):
@@ -36,3 +39,6 @@ class UserView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+
